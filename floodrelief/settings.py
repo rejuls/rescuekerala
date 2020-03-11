@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'bootstrap3',
     'django_filters',
     'storages',
@@ -179,6 +180,9 @@ LOGGING = {
         'simple': {
             'format': '%(levelname)s %(message)s'
         },
+        'command': {
+            'format': '%(asctime)s %(message)s'
+        },
     },
     'handlers': {
         'file': {
@@ -187,12 +191,17 @@ LOGGING = {
             'filename': 'mysite.log',
             'formatter': 'verbose'
         },
+        'send_sms': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/send_volunteer_sms.log',
+            'formatter': 'command'
+        },
     },
     'loggers': {
-        'django': {
-            'handlers':['file'],
-            'propagate': True,
-            'level':'DEBUG',
+        'send_sms': {
+            'handlers': ['send_sms'],
+            'level': 'INFO',
         },
     }
 }

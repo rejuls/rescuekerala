@@ -11,8 +11,15 @@
   </ol>
 </nav>
 
-<h1 class="text-center">Register as Volunteer</h1>
-<h2 class="text-center">വൊളന്‍റീയര്‍ ആകാന്‍</h2>
+	<h1 class="text-center">Register as Volunteer</h1>
+	<h1 class="text-center">വൊളന്‍റീയര്‍ ആകാന്‍</h1>
+	<h5 align=center>
+		Volunteers are needed to undertake a flood damage assesment survey in the field, and must accompany officials with an app to record damages. If you are willing, please  press the confirm button.
+	</h5>
+	<h5 align=center> 
+		ഈ മേഖലയിൽ ഒരു വെള്ളപ്പൊക്ക നാശനഷ്ട വിലയിരുത്തൽ സർവേ നടത്താൻ സന്നദ്ധപ്രവർത്തകർ ആവശ്യമാണ്, മാത്രമല്ല നാശനഷ്ടങ്ങൾ രേഖപ്പെടുത്തുന്നതിന് ഒരു ആപ്ലിക്കേഷനുമായി ഉദ്യോഗസ്ഥരോടൊപ്പം ഉണ്ടായിരിക്കണം.  നിങ്ങൾ തയ്യാറാണെങ്കിൽ, സ്ഥിരീകരിക്കുക. confirm ബട്ടൺ അമർത്തുക.
+	</h5>
+
   <form method="post" id="volunteer_consent_form">
   {% csrf_token %}
   {% if form.instance.pk %}
@@ -27,7 +34,7 @@
 
 	    <tbody>
 	      <tr>
-	        <td><b> District : </b></td><td>{{ form.instance.district }}</td>
+	        <td><b> District : </b></td><td>{{ form.instance.get_district_display }}</td>
 	      </tr>
 	      <tr>
 	        <td><b> Name : </b></td><td>{{ form.instance.name }}</td>
@@ -35,7 +42,7 @@
 	      <tr>
 	        <td><b> Organisation : </b></td><td>{{ form.instance.organisation }}</td>
 	      </tr>
-	      <tr>
+	      <tr style="display:None">
 	        <td><b> Consent : </b></td><td>{% if form.instance.has_consented %} yes {% else %} no {% endif %}</td>
 	      </tr>
 		  <tr>
@@ -87,16 +94,16 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
 <script>
-	// $(".consent").click(function(event) {
-	// 	var consent = $(this).attr('data-consent');
-	// 	if(consent === 'confirm') {
-	// 		$("[name=has_consented]").prop("checked", true);
-	// 	} else if(consent === 'cancel'){
-	// 		$("[name=has_consented]").prop("checked", false);
-	// 	}
+	$(".consent").click(function(event) {
+		var consent = $(this).attr('data-consent');
+		if(consent === 'confirm') {
+			$("[name=has_consented]").prop("checked", true);
+		} else if(consent === 'cancel'){
+			$("[name=has_consented]").prop("checked", false);
+		}
 		
-	// 	$("#volunteer_consent_form").submit();
-	// })
+		$("#volunteer_consent_form").submit();
+	})
 
 	$('#submit_btn').click(function (){
 		if(!$('#register_consent').is(":checked")){
@@ -108,10 +115,10 @@
 	
 	
 
-	// $( "#volunteer_consent_form" ).submit(function( event ) {
-	//   alert( "Handler for .submit() called." );
-	//   
-	// })
+	$( "#volunteer_consent_form" ).submit(function( event ) {
+	  alert( "Handler for .submit() called." );
+	  
+	})
     
     window.addEventListener('load', function() {
         $("#id_phone").attr('type', 'number');

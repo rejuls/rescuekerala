@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load bootstrap3 %}
+{% load humanize %}
 
 {% block content %}
 <!--Navigation Breadcrumbs-->
@@ -19,6 +20,7 @@
       <th>Items required</th>
       <th>Contacts & Collection points</th>
       <th>Inventory</th>
+	  <th>Modified</th>
 	  <th></th>
     </tr>
   {% for item in district_data %}
@@ -32,6 +34,9 @@
       </td>
       <td>
         {{item.inventory|linebreaks}}
+	  </td>
+	  <td>
+        {{item.date_modified|naturaltime}}
       </td>
 	  <td>
 		<button class="btn btn-primary" onclick="copy_content_or_share(this);">Share/Copy</button>
@@ -48,19 +53,42 @@ function copy_content_or_share(elem) {
 	for(var i = 0;i<tds.length-1;i++) {
 		copy_text = copy_text+ths[i].innerText.toUpperCase()+'\n\n'+tds[i].innerText+'\n\n';
 	}
-	var tempInput = document.createElement("textarea");
-    tempInput.style = "position: absolute; left: -1000px; top: -1000px";
-    tempInput.innerHTML = copy_text;
-    document.body.appendChild(tempInput);
-    tempInput.select();
-    document.execCommand("copy");
-    document.body.removeChild(tempInput);
+	copy_text += '\nContent copied from www.keralarescue.in, official website of Govt. of Kerala'
+	
+	function copy_content() {
+		var tempInput = document.createElement("textarea");
+		tempInput.style = "position: absolute; left: -1000px; top: -1000px";
+		tempInput.innerHTML = copy_text;
+		document.body.appendChild(tempInput);
+		tempInput.select();
+		document.execCommand("copy");
+		document.body.removeChild(tempInput);
+		
+		//Code for temporary alert
+		//Replace with toast message if you shift to bootsrap 4
+		var tempAlert = document.createElement("div");
+		tempAlert.className="alert alert-info"; //Using bootstrap 3 alert
+		tempAlert.style = "margin-top:5px; padding: 5px; text-align:center;";
+		tempAlert.innerHTML="<strong>Copied!</strong>";
+		elem.setAttribute('onclick',''); //Temporarily disabling button to prevent dupicate alert
+		elem.parentElement.appendChild(tempAlert); //Showing alert below button
+		setTimeout(function() {
+			elem.parentElement.removeChild(tempAlert);
+			elem.setAttribute('onclick','copy_content_or_share(this);'); //Re enabling button
+		}, 2000); //Hiding after 2 seconds
+	}
+	
 	if (navigator.share) {
-	navigator.share({
-      text: copy_text
-	})
-    .then(() => console.log('Successful share'))
-    .catch((error) => console.log('Error sharing', error));
+		navigator.share({
+			text: copy_text
+		})
+		.then(() => console.log('Successful share'))
+		.catch((error) => {
+			copy_content();
+			console.log('Error sharing', error);
+		});
+	} else {
+		copy_content();
 	}
 }
 </script>

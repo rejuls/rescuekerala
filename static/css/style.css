@@ -1,6 +1,9 @@
 body{
     background: #ededed;
 }
+.mal {
+  font-family: 'Manjari';
+}
 .navbar{
     padding: 15px 30px;
     margin-bottom: 5px;

@@ -8,3 +8,4 @@ mysite.log
 venv
 .idea/*
 media/
+logs/*

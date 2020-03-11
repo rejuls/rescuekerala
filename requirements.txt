@@ -13,10 +13,10 @@ pytz==2018.5
 raven==6.9.0
 six==1.11.0
 whitenoise==4.0
-django-redis==4.9.0
-redis==2.10.6
+django-redis==4.10.0
+redis==3.3.7
 requests==2.19.1
-rq==0.12.0
+rq==1.1.0
 pillow==5.2.0
 boto3==1.7.80
 botocore==1.10.80
